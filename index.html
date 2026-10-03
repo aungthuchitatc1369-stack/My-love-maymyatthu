@@ -5,6 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Question for You ❤️</title>
   <style>
+    * {
+      box-sizing: border-box;
+    }
     body {
       display: flex;
       flex-direction: column;
@@ -13,38 +16,41 @@
       height: 100vh;
       margin: 0;
       background-color: #ffe6e9;
-      font-family: Arial, sans-serif;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       text-align: center;
+      overflow: hidden;
     }
     h1 {
       color: #d32f2f;
       font-size: 2rem;
-      margin-bottom: 20px;
+      margin-bottom: 30px;
+      padding: 0 15px;
     }
     .btn-container {
       display: flex;
-      gap: 15px;
+      gap: 20px;
       align-items: center;
       justify-content: center;
       position: relative;
     }
     button {
-      padding: 12px 24px;
-      font-size: 1.2rem;
+      padding: 15px 25px;
+      font-size: 1.1rem;
       border: none;
-      border-radius: 8px;
+      border-radius: 12px;
       cursor: pointer;
-      transition: all 0.2s ease;
+      transition: all 0.3s ease;
+      font-weight: bold;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
     }
     #yesBtn {
       background-color: #4caf50;
       color: white;
-      font-weight: bold;
+      z-index: 100;
     }
     #noBtn {
       background-color: #f44336;
       color: white;
-      font-weight: bold;
       position: relative;
     }
   </style>
@@ -59,32 +65,76 @@
   </div>
 
   <script>
-    let yesSize = 1.2;
-    let noSize = 1.2;
+    let yesSize = 1.1;
+    let noSize = 1.1;
+    let clickCount = 0;
+
+    // ပြောင်းလဲမည့် စာသားများ
+    const noTexts = [
+      "စဉ်းစားပါရစေဦး... 🤔",
+      "ရည်းစား မထားချင်သေးဘူး... 🙈",
+      "တကယ် မချစ်ဘူးလား... 🥺",
+      "နောက်တစ်ခါ စဉ်းစားပါဦး... 💔",
+      "ချစ်လိုက်ပါနော်... 👉👈"
+    ];
+
+    // အပြင်ထွက်ဖို့ ဘာနှိပ်နှိပ် တားဆီးရန် Code
+    window.addEventListener("beforeunload", function (e) {
+      e.preventDefault();
+      e.returnValue = "ချစ်တယ် မနှိပ်မချင်း ထွက်လို့ မရဘူးနော်! 😜";
+      return "ချစ်တယ် မနှိပ်မချင်း ထွက်လို့ မရဘူးနော်! 😜";
+    });
+
+    history.pushState(null, null, location.href);
+    window.onpopstate = function () {
+      history.pushState(null, null, location.href);
+      alert("ချစ်တယ် မနှိပ်မချင်း အပြင်ထွက်လို့ မရဘူးနော်! 😉❤️");
+    };
 
     function moveNo() {
       const noBtn = document.getElementById("noBtn");
       const yesBtn = document.getElementById("yesBtn");
 
-      noSize -= 0.15;
-      if (noSize < 0.2) {
-        noBtn.style.display = 'none';
+      // စာသား ပြောင်းပေးခြင်း
+      if (clickCount < noTexts.length) {
+        noBtn.innerText = noTexts[clickCount];
+      }
+
+      // No ခလုတ်ကို ဖြည်းဖြည်းစီ သေးသွားစေပြီး နေရာရွှေ့ခြင်း
+      noSize -= 0.12;
+      if (clickCount >= noTexts.length || noSize < 0.3) {
+        noBtn.style.display = 'none'; // စာကုန်သွားရင် ခလုတ်ဖျောက်မည်
       } else {
         noBtn.style.transform = `scale(${noSize})`;
-        const x = (Math.random() - 0.5) * 200;
-        const y = (Math.random() - 0.5) * 200;
+        const x = (Math.random() - 0.5) * 220;
+        const y = (Math.random() - 0.5) * 220;
+        noBtn.style.position = 'absolute';
         noBtn.style.top = `${y}px`;
         noBtn.style.left = `${x}px`;
       }
 
-      yesSize += 0.4;
+      // Yes ခလုတ်ကို ဖြည်းဖြည်းစီ ပိုကြီးလာစေခြင်း
+      yesSize += 0.3;
       yesBtn.style.transform = `scale(${yesSize})`;
+
+      clickCount++;
     }
 
     function acceptLove() {
+      // အပြင်မထွက်ရအောင် တားထားတာဖြုတ်ခြင်း
+      window.onpopstate = null;
+
+      // ----------------------------------------------------
+      // ၁။ Messenger ထို့ တိုက်ရိုက် စာရောက်ချင်ပါက အောက်ပါ Link တွင် မိမိ Facebook Username/ID ထည့်ပါ
+      // window.location.href = "https://m.me/YOUR_FACEBOOK_USERNAME";
+
+      // ၂။ Telegram ထို့ တိုက်ရိုက် စာရောက်ချင်ပါက -
+      // window.location.href = "https://t.me/YOUR_TELEGRAM_USERNAME?text=ငါနင့်ကို%20ချစ်တယ်❤️";
+      // ----------------------------------------------------
+
       document.body.innerHTML = `
-        <h1 style="font-size: 2.5rem; color: #e91e63;">သိနေတယ်လေ ချစ်မယ်ဆိုတာ 🙈❤️</h1>
-        <p style="font-size: 1.2rem;">ဒီ Screen လေးကို SS ရိုက်ပြီး ကိုယ့်ဆီ ပြန်ပို့ပေးနော်!</p>
+        <h1 style="font-size: 2.2rem; color: #e91e63;">သိနေတယ်လေ ချစ်မယ်ဆိုတာ 🙈❤️</h1>
+        <p style="font-size: 1.2rem; color: #333;">"ငါလည်း နင့်ကို ချစ်တယ်" လို့ စာလေး ပြန်ပို့ပေးနော်! 📸</p>
       `;
     }
   </script>
