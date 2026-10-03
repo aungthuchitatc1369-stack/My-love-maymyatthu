@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="my">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Question for You ❤️</title>
+  <style>
+    body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+      background-color: #ffe6e9;
+      font-family: Arial, sans-serif;
+      text-align: center;
+    }
+    h1 {
+      color: #d32f2f;
+      font-size: 2rem;
+      margin-bottom: 20px;
+    }
+    .btn-container {
+      display: flex;
+      gap: 15px;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
+    button {
+      padding: 12px 24px;
+      font-size: 1.2rem;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    #yesBtn {
+      background-color: #4caf50;
+      color: white;
+      font-weight: bold;
+    }
+    #noBtn {
+      background-color: #f44336;
+      color: white;
+      font-weight: bold;
+      position: relative;
+    }
+  </style>
+</head>
+<body>
+
+  <h1 id="question">ငါ့ကို ချစ်လား...? 🥺</h1>
+
+  <div class="btn-container">
+    <button id="yesBtn" onclick="acceptLove()">ချစ်တယ် ❤️</button>
+    <button id="noBtn" onclick="moveNo()">မချစ်ဘူး 💔</button>
+  </div>
+
+  <script>
+    let yesSize = 1.2;
+    let noSize = 1.2;
+
+    function moveNo() {
+      const noBtn = document.getElementById("noBtn");
+      const yesBtn = document.getElementById("yesBtn");
+
+      noSize -= 0.15;
+      if (noSize < 0.2) {
+        noBtn.style.display = 'none';
+      } else {
+        noBtn.style.transform = `scale(${noSize})`;
+        const x = (Math.random() - 0.5) * 200;
+        const y = (Math.random() - 0.5) * 200;
+        noBtn.style.top = `${y}px`;
+        noBtn.style.left = `${x}px`;
+      }
+
+      yesSize += 0.4;
+      yesBtn.style.transform = `scale(${yesSize})`;
+    }
+
+    function acceptLove() {
+      document.body.innerHTML = `
+        <h1 style="font-size: 2.5rem; color: #e91e63;">သိနေတယ်လေ ချစ်မယ်ဆိုတာ 🙈❤️</h1>
+        <p style="font-size: 1.2rem;">ဒီ Screen လေးကို SS ရိုက်ပြီး ကိုယ့်ဆီ ပြန်ပို့ပေးနော်!</p>
+      `;
+    }
+  </script>
+
+</body>
+</html>
